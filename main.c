@@ -56,7 +56,6 @@ void Ajouter(struct Contact tcontact[50])       //Cette procédure permet l'ajout
     char choix2;
 
     Recup(tcontact);        //Appel de la fonction Recup, explication un peu plus tard.
-
     printf("\nNom : "); fflush(stdin);      //fflush(stdin) permet d'éviter un probleme lié a la touche entrer.
     scanf("%s", &tcontact[compteur].nom);
 
@@ -88,28 +87,76 @@ void Ajouter(struct Contact tcontact[50])       //Cette procédure permet l'ajout
         strcpy(tcontact[compteur].ville, "NR");
     }
 
-    Enregistrer(tcontact);  //Appel de la procédure Enregistrer.
+    EnregistrerAjout(tcontact);  //Appel de la procédure Enregistrer.
     Recup(tcontact);        //Appel de la procédure Recup.
 
 }
 
-void Enregistrer(struct Contact tcontact[50])       //La procédure Enregistrer permet comme son nom l'indique l'enregistrement des contacts dans un fichier texte.
+void EnregistrerModif(struct Contact tcontact[50])       //La procédure Enregistrer permet comme son nom l'indique l'enregistrement des contacts dans un fichier texte.
 {
     FILE* fichier = NULL;
     fichier = fopen("Contact.txt", "w+");       //On crée le fichier contact avec le mode d'ouverture "w+", qui permet la lecture et l'écriture, mais vide le fichier pour y réecrire juste aprés. Cela nous permet de réactuliser la liste des contacts.
 
-    int k;
-
+    int k = 0;
+    printf("%d", compteur);
     if(fichier != NULL)
     {
-        for(k=0; k<=compteur; k++)      //Boucle permettant l'écriture de la fiche d'un contacts.
-        {
-            fprintf(fichier, "\nNom : %s\n", tcontact[k].nom);
-            fprintf(fichier, "Prenom : %s\n", tcontact[k].prenom);
-            fprintf(fichier, "Telephone : %s\n", tcontact[k].num);
-            fprintf(fichier, "Adresse : %s\n", tcontact[k].adresse);
-            fprintf(fichier, "Code Postal : %s\n", tcontact[k].cdp);
-            fprintf(fichier, "Ville : %s", tcontact[k].ville);
+        if(compteur == 0) {
+            for(k; k<=compteur; k++)      //Boucle permettant l'écriture de la fiche d'un contacts.
+            {
+                fprintf(fichier, "\nNom : %s\n", tcontact[k].nom);
+                fprintf(fichier, "Prenom : %s\n", tcontact[k].prenom);
+                fprintf(fichier, "Telephone : %s\n", tcontact[k].num);
+                fprintf(fichier, "Adresse : %s\n", tcontact[k].adresse);
+                fprintf(fichier, "Code Postal : %s\n", tcontact[k].cdp);
+                fprintf(fichier, "Ville : %s", tcontact[k].ville);
+            }
+        }
+        else if(compteur >0) {
+           for(k; k<compteur; k++)      //Boucle permettant l'écriture de la fiche d'un contacts.
+            {
+                fprintf(fichier, "\nNom : %s\n", tcontact[k].nom);
+                fprintf(fichier, "Prenom : %s\n", tcontact[k].prenom);
+                fprintf(fichier, "Telephone : %s\n", tcontact[k].num);
+                fprintf(fichier, "Adresse : %s\n", tcontact[k].adresse);
+                fprintf(fichier, "Code Postal : %s\n", tcontact[k].cdp);
+                fprintf(fichier, "Ville : %s", tcontact[k].ville);
+            }
+        }
+    }
+    fclose(fichier);        //On ferme le fichier.
+}
+
+void EnregistrerAjout(struct Contact tcontact[50])       //La procédure Enregistrer permet comme son nom l'indique l'enregistrement des contacts dans un fichier texte.
+{
+    FILE* fichier = NULL;
+    fichier = fopen("Contact.txt", "w+");       //On crée le fichier contact avec le mode d'ouverture "w+", qui permet la lecture et l'écriture, mais vide le fichier pour y réecrire juste aprés. Cela nous permet de réactuliser la liste des contacts.
+
+    int k = 0;
+    if(fichier != NULL)
+    {
+        if(compteur == 0) {
+            for(k; k<=compteur; k++)      //Boucle permettant l'écriture de la fiche d'un contacts.
+            {
+                fprintf(fichier, "\nNom : %s\n", tcontact[k].nom);
+                fprintf(fichier, "Prenom : %s\n", tcontact[k].prenom);
+                fprintf(fichier, "Telephone : %s\n", tcontact[k].num);
+                fprintf(fichier, "Adresse : %s\n", tcontact[k].adresse);
+                fprintf(fichier, "Code Postal : %s\n", tcontact[k].cdp);
+                fprintf(fichier, "Ville : %s", tcontact[k].ville);
+            }
+        }
+        else if(compteur >0) {
+                compteur++;
+           for(k; k<compteur; k++)      //Boucle permettant l'écriture de la fiche d'un contacts.
+            {
+                fprintf(fichier, "\nNom : %s\n", tcontact[k].nom);
+                fprintf(fichier, "Prenom : %s\n", tcontact[k].prenom);
+                fprintf(fichier, "Telephone : %s\n", tcontact[k].num);
+                fprintf(fichier, "Adresse : %s\n", tcontact[k].adresse);
+                fprintf(fichier, "Code Postal : %s\n", tcontact[k].cdp);
+                fprintf(fichier, "Ville : %s", tcontact[k].ville);
+            }
         }
     }
 
@@ -119,8 +166,7 @@ void Enregistrer(struct Contact tcontact[50])       //La procédure Enregistrer p
 void Afficher(struct Contact tcontact[50])      //La procédure Afficher, permet d'afficher la liste des contacts depuis l'invité de commande.
 {
     int j;
-
-    for(j=0; j<=compteur--; j++)     //Boucle qui permet l'affichage de la totalité des contacts tant que "j", n'est pas egale à compteur
+    for(j=0; j<compteur; j++)     //Boucle qui permet l'affichage de la totalité des contacts tant que "j", n'est pas egale à compteur
     {
         printf("\n\nNom : %s", tcontact[j].nom);
         printf("\nPrenom : %s", tcontact[j].prenom);
@@ -140,28 +186,25 @@ void Modifier(struct Contact tcontact[50])  //Cette procédure permet la modifica
     k = 0;
 
     Recup(tcontact);    //Appel de la procédure Recup.
-    compteur--;
 
     printf("Quelle contact souhaitez-vous modifier ?");
     printf("\nEntrer un nom : ");
     scanf("%s", &foundname);        //On affecte un nom a foundname.
 
-    do{     //Boucle qui parcourt la liste des contacts.
+    for(k; k<=compteur; k++){     //Boucle qui parcourt la liste des contacts.
         if(strcmp(tcontact[k].nom, foundname) ==0)      //La fonction strcmp permet de comparé deux chaînes de caractéres, lorsque les chaînes de caractéres sont égaux, la fonction renvoie 0.
         {
             printf("Le contact a ete trouver !");
             printf("Entrer le numeros de  telephone : ");
             scanf("%s", tcontact[k].num);
             trouve =1;      //trouve, va nous servir a appeler la procédure Enregistrer, pour ré-actuliser la liste des contacts.
+            break;
         }
-
-        k++;
-
-    }while(k<=compteur);
+    }
 
     if(trouve)
     {
-        Enregistrer(tcontact);
+        EnregistrerModif(tcontact);
     }
 
     else if(!trouve)    //Dans le cas ou strcmp != 0, donc trouve est !=1, alors on affiche un message a l'utilisateur, comme quoi le contact n'a pas etait enregistrer.
@@ -196,16 +239,16 @@ void Supprimer(struct Contact tcontact[50]) //La procédure Supprimer permet la s
 
         k++;
 
-    }while(k<=compteur);
+    }while(k<compteur);
 
-    tcontact[compteur].nom == "";
-    tcontact[compteur].prenom == "";
-    tcontact[compteur].num == "";
-    tcontact[compteur].adresse == "";
-    tcontact[compteur].cdp == "";
-    tcontact[compteur].ville == "";
+    tcontact[compteur].nom == " ";
+    tcontact[compteur].prenom == " ";
+    tcontact[compteur].num == " ";
+    tcontact[compteur].adresse == " ";
+    tcontact[compteur].cdp == " ";
+    tcontact[compteur].ville == " ";
     compteur--;
-    Enregistrer(tcontact);
+    EnregistrerModif(tcontact);
 
     if(!trouve)
     {
@@ -242,9 +285,9 @@ void Recup(struct Contact tcontact[50])     //La procédure Recup, permet de recu
 
             fseek(fichier, 9, SEEK_CUR);
             fscanf(fichier, "%s", &tcontact[compteur].ville);
-            compteur++;     //On increment compteur pour compter le nombre de compteur.
+            compteur++;     //On increment compteur pour compter le nombre de contact.
         }
-        }
+    }
 
         fclose(fichier);        //On ferme le fichier.
 }
