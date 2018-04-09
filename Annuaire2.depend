@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1488823328 source:c:\users\samit\desktop\document\document sami\informatique\semestre 2\slam2\programme c\annuaire2\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1488845600 source:e:\annuaire2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1488845600 source:d:\annuaire2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1488873770 source:e:\annuairethairisami\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
